@@ -1,140 +1,133 @@
 'use strict';
-/*
-задание 1
-
-let a = 1, b = 1, c, d;
-c = ++a;
-alert(c); // a увеличено на 1 префиксной формой инкремента
-
-d = b++;
-alert(d); // b увеличено на 1 постфиксной формой так что выводится значение до инкрементации
-
-c = 2 + ++a;
-alert(c); // a увеличено еще на 1 относительно первого примера
-
-d = 2 + b++;
-alert(d); // 2 сложено с b до инкрементации т.е. с 2
-
-alert(a); // a = 3 из примера 3
-alert(b); // b = 3 из примера 4 т.к. инкрементация постфиксной формой
-
-
-*/
-
 // задание 2
 
-/*
-let a = 2;
-let x = 1 + (a *= 2); // (a = a*2) = 4 затем x = 4 + 1 = 5
-*/
-
-
-
-// задание 3
-
-let a = Number(prompt("Введите первое число"));
-let b = Number(prompt("Введите второе число"));
-
-if (a >= 0 && b >= 0)
-    alert (`Оба числа положительные. Их разница ${a - b}`);
-else if (a < 0 && b < 0)
-    alert (`Оба числа отрицательные. Их произведение ${a * b}`);
-else if ((Math.sign(a) >= 0 && Math.sign(b) < 0) || (Math.sign(a) < 0 && Math.sign(b) >= 0))
-    alert (`Оба числа имеют разные знаки. Их сумма ${a + b}`);
-
-
-// задание 4
-/**
-Суммирует параметры
-@returns {number} 
-*/
-function numbersSum(num1, num2){
-    let result = num1 + num2;
-    return result;
-}
-
-/**
-@description Вычитает параметры
-@returns {number} 
-*/
-function numbersSub(num1, num2){
-    let result = num1 - num2;
-    return result;
-}
-
-/**
-@description Делит параметры
-@returns {number} 
-*/
-function numbersDiv(num1, num2){
-    let result = num1 / num2;
-    return result;
-}
-
-/**
-@description Перемножает параметры
-@returns {number} 
-*/
-function numbersMul(num1, num2){
-    let result = num1 * num2;
-    return result;
-}
-
-//задание 5
-/**
-@description примнимает 2 числа и математическую функцию
-
-@returns {number} 
-*/
-function mathOperator (arg1, arg2, operation){
-    switch (operation){
-        case numbersSum:
-            let resultSum = numbersSum(arg1, arg2);
-            return resultSum;
-            break;
-        case numbersSub:
-            let resultSub = numbersSub(arg1, arg2);
-            return resultSub;
-            break;
-        case numbersDiv:
-            let resultDiv = numbersDiv(arg1, arg2);
-            return resultDiv;
-            break;
-        case numbersMul:
-            let resultMul = numbersMul(arg1, arg2);
-            return resultMul;
-            break;
+let i = 0;
+for (i = 0; i < 11; i++) {
+    if (i == 0) {
+        alert (`${i} это ноль`);
     }
+    else if (i%2 == 0) {
+        alert (`${i} это четное число`);
+    }
+    
+    else
+        {
+        alert (`${i} это нечетное число`)
+        }
 }
 
 
+//задание 3
 
-let g = mathOperator (4, 5, numbersSum);
-alert (g);
+const post = { author: "John", //вывести этот текст 
+              postId: 23, 
+              comments: [
+                  { 
+                      userId: 10, 
+                      userName: "Alex", 
+                      text: "lorem ipsum", 
+                      rating: { 
+                          likes: 10, 
+                          dislikes: 2 //вывести это число 
+                      } 
+                  }, 
+                  { 
+                      userId: 5, //вывести это число 
+                      userName: "Jane", 
+                      text: "lorem ipsum 2", //вывести этот текст 
+                      rating: {
+                          likes: 3, 
+                          dislikes: 1 
+                      } 
+                  }, 
+              ] 
+             }
 
-let t = mathOperator (4, 5, numbersSub);
-alert (t);
-
-let y = mathOperator (4, 5, numbersDiv);
-alert (y);
-
-let u = mathOperator (4, 5, numbersMul);
-alert (u);
+console.log (post.author);
+console.log (post.comments[0].rating.dislikes);
+console.log (post.comments[1].userId);
+console.log (post.comments[1].text);
 
 
 
-//задание 6
+//задание 4
 
-let rubles = Number(prompt("Введите количство рублей"))
+const products = [ 
+    { 
+        id: 3, price: 200, 
+    }, 
+    {
+        id: 4, price: 900, 
+    }, 
+    { 
+        id: 1, price: 1000,
+    }, 
+];
+
+products.forEach (function (item){
+    item.price *= 0.85;
+    alert(`Новая цена товара id ${item.id} = ${item.price}`)
+}
+) 
 
 
-let resultRubles = (rubles % 10); //вычисление последней цифры 
+// задание 5
 
-if (resultRubles == 1)
-    alert (`Ваша сумма в ${rubles} рубль зачислена`);
+const productS = [ 
+    { 
+        id: 3, 
+        price: 127, 
+        photos: [
+            "1.jpg", 
+            "2.jpg", 
+        ] 
+    }, 
+    {
+        id: 5, 
+        price: 499,
+        photos: [] 
+    }, 
+    { 
+        id: 10,
+        price: 26,
+        photos: [
+            "3.jpg" 
+        ] 
+    },
+    { 
+        id: 8,
+        price: 78,
+    }, 
+];
 
-else if (resultRubles >1 && resultRubles < 5)
-    alert (`Ваша сумма в ${rubles} рубля зачислена`); 
-else 
-    alert (`Ваша сумма в ${rubles} рублей зачислена`); 
-   
+
+let result = productS.filter(product => product.photos != false && product.photos != undefined);
+
+console.log (result);
+
+
+productS.sort(function (a, b) {
+    if (a.price > b.price) {
+        return 1;
+    }
+        if (a.price < b.price) {
+        return -1;
+    }
+    return 0;
+})
+
+console.log (products);
+
+
+// задание 6
+
+
+for (let p = 0; p < 10; alert(p++)){};
+
+
+
+let q = 0;
+for (q = 0; q < 21; q++){
+    console.log ('*'.repeat(q));
+};
+
