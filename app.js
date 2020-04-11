@@ -1,133 +1,130 @@
 'use strict';
-// задание 2
+// задание 1
 
-let i = 0;
-for (i = 0; i < 11; i++) {
-    if (i == 0) {
-        alert (`${i} это ноль`);
+class UnitsTensHundreds {
+    constructor(num) {
+        this.units = num % 10;
+        this.tens = ((num - this.units) % 100) / 10;
+        this.hundreds = (num - this.units - ((num - this.units) % 100)) / 100;
     }
-    else if (i%2 == 0) {
-        alert (`${i} это четное число`);
+}
+
+/**
+* проверка числа на диапазон и целочисленность,
+* если проверка пройдена создается объект UnitsTensHundreds
+* @param {number} - принимает число
+* @return {object} - возвращает объект
+*/
+function userNumberCheck(num1) {
+    if (num1 < 0 || num1 > 999) {
+        console.log("ваше число вне диапазона");
+        return {}
     }
-    
-    else
-        {
-        alert (`${i} это нечетное число`)
-        }
+    else if (!Number.isInteger(num1)) {
+        console.log("вы не задали целое число");
+        return {}
+    }
+    else {
+        let resultObj = new UnitsTensHundreds(num1)
+        return resultObj
+    }
+}
+
+let userNumber = Number(prompt("Введите число от 0 до 999: "));
+let res = userNumberCheck(userNumber);
+console.log(res);
+
+// задание 1.1
+
+//es5
+
+function Product(name, price) {
+    this.name = name;
+    this.price = price;
 }
 
 
-//задание 3
-
-const post = { author: "John", //вывести этот текст 
-              postId: 23, 
-              comments: [
-                  { 
-                      userId: 10, 
-                      userName: "Alex", 
-                      text: "lorem ipsum", 
-                      rating: { 
-                          likes: 10, 
-                          dislikes: 2 //вывести это число 
-                      } 
-                  }, 
-                  { 
-                      userId: 5, //вывести это число 
-                      userName: "Jane", 
-                      text: "lorem ipsum 2", //вывести этот текст 
-                      rating: {
-                          likes: 3, 
-                          dislikes: 1 
-                      } 
-                  }, 
-              ] 
-             }
-
-console.log (post.author);
-console.log (post.comments[0].rating.dislikes);
-console.log (post.comments[1].userId);
-console.log (post.comments[1].text);
-
-
-
-//задание 4
-
-const products = [ 
-    { 
-        id: 3, price: 200, 
-    }, 
-    {
-        id: 4, price: 900, 
-    }, 
-    { 
-        id: 1, price: 1000,
-    }, 
-];
-
-products.forEach (function (item){
-    item.price *= 0.85;
-    alert(`Новая цена товара id ${item.id} = ${item.price}`)
+Product.prototype.make25percentDiscount = function () {
+    this.price *= 0.75;
 }
-) 
 
 
-// задание 5
 
-const productS = [ 
-    { 
-        id: 3, 
-        price: 127, 
-        photos: [
-            "1.jpg", 
-            "2.jpg", 
-        ] 
-    }, 
-    {
-        id: 5, 
-        price: 499,
-        photos: [] 
-    }, 
-    { 
-        id: 10,
-        price: 26,
-        photos: [
-            "3.jpg" 
-        ] 
-    },
-    { 
-        id: 8,
-        price: 78,
-    }, 
-];
-
-
-let result = productS.filter(product => product.photos != false && product.photos != undefined);
-
-console.log (result);
-
-
-productS.sort(function (a, b) {
-    if (a.price > b.price) {
-        return 1;
+//es6
+class Product {
+    constructor(name, price) {
+        this.name = name;
+        this.price = price;
     }
-        if (a.price < b.price) {
-        return -1;
+    make25percentDiscount() {
+        this.price *= 0.75;
     }
-    return 0;
-})
+}
 
-console.log (products);
-
-
-// задание 6
-
-
-for (let p = 0; p < 10; alert(p++)){};
+let phone = new Product("iphone", 1000);
+console.log(phone);
+phone.make25percentDiscount();
+console.log(phone);
 
 
+// задание 1.2
+//es5
 
-let q = 0;
-for (q = 0; q < 21; q++){
-    console.log ('*'.repeat(q));
-};
+function Post(author, text, date) {
+    this.author = author;
+    this.text = text;
+    this.date = date;
+}
 
+Post.prototype.edit = function (str) {
+    this.text = str;
+}
+
+function AttachedPost(author, text, date) {
+    Post.call(this, author, text, date);
+    this.hilighted = false;
+}
+
+
+
+AttachedPost.prototype = Object.create(Post.prototype);
+AttachedPost.prototype.constructor = AttachedPost;
+
+AttachedPost.prototype.makeTextHighlited = function () {
+    this.hilighted = true;
+}
+
+
+//es6
+class Post {
+    constructor(author, text, date) {
+        this.author = author;
+        this.text = text;
+        this.date = date;
+    }
+    edit(str) {
+        this.text = str;
+    }
+}
+
+class AttachedPost extends Post {
+    constructor(author, text, date) {
+        super(author, text, date);
+        this.highlited = false;
+    }
+    makeTextHighlited() {
+        this.highlited = true;
+    }
+}
+
+
+let pst1 = new Post("ivan", "helo", "10:10:2002");
+console.log(pst1);
+pst1.edit("hello world");
+console.log(pst1);
+
+let pst2 = new AttachedPost("John", "hi", "10:10:2020");
+console.log(pst2);
+pst2.edit("hi ivan");
+pst2.makeTextHighlited();
+console.log(pst2);
