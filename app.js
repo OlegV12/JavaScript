@@ -1,130 +1,96 @@
-'use strict';
-// задание 1
+"use  strict";
 
-class UnitsTensHundreds {
-    constructor(num) {
-        this.units = num % 10;
-        this.tens = ((num - this.units) % 100) / 10;
-        this.hundreds = (num - this.units - ((num - this.units) % 100)) / 100;
+// задание 3а
+let btn = document.querySelector('.modalWindowBtn');
+let modalWindow = document.querySelector('.modalWindow');
+btn.addEventListener('click', function () {
+    modalWindow.classList.remove('doNotShow');
+})
+let cancelBtn = modalWindow.querySelector('.cancel');
+cancelBtn.addEventListener('click', function () {
+    modalWindow.classList.add('doNotShow')
+})
+
+
+
+
+//задание 4
+let buttons = document.querySelectorAll('.button');
+buttons.forEach(function clickListen(element) {
+    element.addEventListener('click', function (event) {
+        let prod = event.target.parentNode;
+        let imag = prod.querySelector("img");
+        let button = prod.querySelector("button")
+        let desc = prod.querySelector('.desc');
+        imag.style = "display: none";
+        desc.style = "display: block";
+        button.innerText = "Отмена";
+        button.addEventListener('click', function (event) {
+            imag.style = "display: block";
+            desc.style = "display: none";
+            button.innerText = "Подробнее";
+            clickListen(button);
+
+        })
+        console.log(imag);
+        console.log(button);
+    })
+})
+
+// задание 5
+function chess() {
+    let tbl = document.createElement('table');
+    // создаем 9 рядов таблицы
+    for (let rows = 0; rows < 9; rows++) {
+        let tr = document.createElement('tr');
+        tbl.appendChild(tr);
+        // создаем 9 строк в каждом ряду
+        for (cols = 0; cols < 9; cols++) {
+            let td = document.createElement('td');
+            tr.appendChild(td);
+        }
     }
-}
+    document.body.appendChild(tbl);
+    tbl.border = "solid";
 
-/**
-* проверка числа на диапазон и целочисленность,
-* если проверка пройдена создается объект UnitsTensHundreds
-* @param {number} - принимает число
-* @return {object} - возвращает объект
-*/
-function userNumberCheck(num1) {
-    if (num1 < 0 || num1 > 999) {
-        console.log("ваше число вне диапазона");
-        return {}
+
+    let square = tbl.querySelectorAll('td');
+    let indexLetters = 0;
+    let indexNumbers = 8
+    square.forEach(function (element, index) {
+        element.style.height = '30px';
+        element.style.width = '30px'
+
+        // окрашиваем нечетные квадраты в черный
+        if (index % 2 != 0) {
+            element.style.backgroundColor = "black"
+        }
+        // именуем нижний ряд
+        if (index > 71) {
+            element.style.backgroundColor = "white";
+            let letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', null];
+            element.innerText = letters[indexLetters];
+            indexLetters++;
+        }
+
+        // нумеруем правый ряд
+        /* тут у меня не получилось создать проверку 
+        let i = [8, 17, 26, 35, 44, 53, 62, 71]
+        if (index in i)
+        нумеровались только первые ячейки
+        по этому записал все варианты так
+        */
+        if (index == 8 || index == 17 || index == 26 || index == 35 || index == 44 || index == 53 ||
+            index == 62 || index == 71) {
+            element.style.backgroundColor = 'white';
+            element.innerText = indexNumbers;
+            indexNumbers--;
+        }
     }
-    else if (!Number.isInteger(num1)) {
-        console.log("вы не задали целое число");
-        return {}
-    }
-    else {
-        let resultObj = new UnitsTensHundreds(num1)
-        return resultObj
-    }
+    )
+
+
 }
-
-let userNumber = Number(prompt("Введите число от 0 до 999: "));
-let res = userNumberCheck(userNumber);
-console.log(res);
-
-// задание 1.1
-
-//es5
-
-function Product(name, price) {
-    this.name = name;
-    this.price = price;
-}
+chess();
 
 
-Product.prototype.make25percentDiscount = function () {
-    this.price *= 0.75;
-}
-
-
-
-//es6
-class Product {
-    constructor(name, price) {
-        this.name = name;
-        this.price = price;
-    }
-    make25percentDiscount() {
-        this.price *= 0.75;
-    }
-}
-
-let phone = new Product("iphone", 1000);
-console.log(phone);
-phone.make25percentDiscount();
-console.log(phone);
-
-
-// задание 1.2
-//es5
-
-function Post(author, text, date) {
-    this.author = author;
-    this.text = text;
-    this.date = date;
-}
-
-Post.prototype.edit = function (str) {
-    this.text = str;
-}
-
-function AttachedPost(author, text, date) {
-    Post.call(this, author, text, date);
-    this.hilighted = false;
-}
-
-
-
-AttachedPost.prototype = Object.create(Post.prototype);
-AttachedPost.prototype.constructor = AttachedPost;
-
-AttachedPost.prototype.makeTextHighlited = function () {
-    this.hilighted = true;
-}
-
-
-//es6
-class Post {
-    constructor(author, text, date) {
-        this.author = author;
-        this.text = text;
-        this.date = date;
-    }
-    edit(str) {
-        this.text = str;
-    }
-}
-
-class AttachedPost extends Post {
-    constructor(author, text, date) {
-        super(author, text, date);
-        this.highlited = false;
-    }
-    makeTextHighlited() {
-        this.highlited = true;
-    }
-}
-
-
-let pst1 = new Post("ivan", "helo", "10:10:2002");
-console.log(pst1);
-pst1.edit("hello world");
-console.log(pst1);
-
-let pst2 = new AttachedPost("John", "hi", "10:10:2020");
-console.log(pst2);
-pst2.edit("hi ivan");
-pst2.makeTextHighlited();
-console.log(pst2);
